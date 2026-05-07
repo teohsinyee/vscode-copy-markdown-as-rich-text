@@ -1,5 +1,9 @@
 # Copy Markdown to Rich Text
 
+[![VS Code Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/teohsinyee.copy-markdown-to-rich-text?label=VS%20Code%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=teohsinyee.copy-markdown-to-rich-text)
+[![VS Code Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/teohsinyee.copy-markdown-to-rich-text)](https://marketplace.visualstudio.com/items?itemName=teohsinyee.copy-markdown-to-rich-text)
+[![License](https://img.shields.io/github/license/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/blob/main/LICENSE)
+
 Open a Markdown file in VS Code, then click the star button in the top-right editor toolbar to copy it as rich text.
 
 ![Copy Markdown to Rich Text demo](https://raw.githubusercontent.com/teohsinyee/vscode-copy-markdown-as-rich-text/main/media/copy-markdown-to-rich-text-demo.gif)
