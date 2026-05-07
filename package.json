@@ -1,0 +1,87 @@
+{
+  "name": "copy-markdown-as-rich-text",
+  "displayName": "Copy Markdown as Rich Text",
+  "description": "Copy Markdown from VS Code as rich text for OneNote, Word, Outlook, and similar editors.",
+  "version": "0.1.1",
+  "publisher": "teohsinyee",
+  "author": "Sin Yee",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text.git"
+  },
+  "homepage": "https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text",
+  "bugs": {
+    "url": "https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/issues"
+  },
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "clipboard",
+    "rich text",
+    "office",
+    "notes",
+    "word",
+    "outlook",
+    "onenote"
+  ],
+  "activationEvents": [
+    "onCommand:copyMarkdownAsRichText.copy"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "copyMarkdownAsRichText.copy",
+        "title": "Copy Markdown as Rich Text",
+        "icon": "$(remote-explorer-get-started)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "copyMarkdownAsRichText.copy"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "copyMarkdownAsRichText.copy",
+          "when": "resourceLangId == markdown",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "copyMarkdownAsRichText.copy",
+          "when": "resourceLangId == markdown"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile",
+    "test": "tsx --test test/**/*.test.ts",
+    "package": "npx @vscode/vsce package"
+  },
+  "dependencies": {
+    "html-to-text": "^9.0.5",
+    "markdown-it": "^14.1.0",
+    "node-html-parser": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.96.0",
+    "@vscode/vsce": "^3.6.2",
+    "@vscode/test-electron": "^2.5.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
