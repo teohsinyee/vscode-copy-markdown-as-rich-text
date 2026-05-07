@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Standardized the public extension name to `Copy Markdown to Rich Text`.
+- Rewrote the Marketplace intro so the first instruction is to open a Markdown file and click the star button.
+- Added an animated GIF demo to the README and Marketplace listing content.
+
 ## 0.1.1
 
 - Standardized public branding, command id, and repository metadata for release preparation.

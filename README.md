@@ -1,20 +1,8 @@
-# Copy Markdown as Rich Text
+# Copy Markdown to Rich Text
 
-Copy Markdown from VS Code as rich text for OneNote, Word, Outlook, and similar editors.
+Open a Markdown file in VS Code, then click the star button in the top-right editor toolbar to copy it as rich text.
 
-## Why this exists
-
-Default Markdown copy flows often lose structure when pasted into rich-text editors:
-
-- heading hierarchy flattens
-- paragraph spacing collapses
-- tables lose borders and padding
-- inline code becomes hard to distinguish
-- code blocks lose useful formatting
-
-The workflow stays simple:
-
-`Open Markdown -> Copy Markdown as Rich Text -> Paste`
+![Copy Markdown to Rich Text demo](https://raw.githubusercontent.com/teohsinyee/vscode-copy-markdown-as-rich-text/main/media/copy-markdown-to-rich-text-demo.gif)
 
 ## Features
 
@@ -27,17 +15,18 @@ The workflow stays simple:
 
 ## Installation
 
-Install `Copy Markdown as Rich Text` from the VS Code Marketplace, then run it from any Markdown file.
+Install `Copy Markdown to Rich Text` from the VS Code Marketplace, then run it from any Markdown file.
 
 ## Usage
 
 1. Open a Markdown file in VS Code.
-2. Select a portion of text, or leave nothing selected to copy the whole file.
-3. Run `Copy Markdown as Rich Text` from:
+2. Click the star button in the top-right editor toolbar.
+3. Select a portion of text first if you only want to copy part of the file. If nothing is selected, the whole file is copied.
+4. You can also run `Copy Markdown to Rich Text` from:
    - the Command Palette,
    - the editor title toolbar,
    - the editor context menu.
-4. Paste into your target editor.
+5. Paste into your target editor.
 
 ## Supported Markdown
 

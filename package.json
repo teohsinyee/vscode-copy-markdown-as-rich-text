@@ -1,8 +1,8 @@
 {
-  "name": "copy-markdown-as-rich-text",
-  "displayName": "Copy Markdown as Rich Text",
-  "description": "Copy Markdown from VS Code as rich text for OneNote, Word, Outlook, and similar editors.",
-  "version": "0.1.1",
+  "name": "copy-markdown-to-rich-text",
+  "displayName": "Copy Markdown to Rich Text",
+  "description": "Open a Markdown file in VS Code and click the star button to copy it as rich text.",
+  "version": "0.1.2",
   "publisher": "teohsinyee",
   "author": "Sin Yee",
   "license": "MIT",
@@ -19,7 +19,6 @@
     "vscode": "^1.96.0"
   },
   "categories": [
-    "Productivity",
     "Other"
   ],
   "keywords": [
@@ -40,7 +39,7 @@
     "commands": [
       {
         "command": "copyMarkdownAsRichText.copy",
-        "title": "Copy Markdown as Rich Text",
+        "title": "Copy Markdown to Rich Text",
         "icon": "$(remote-explorer-get-started)"
       }
     ],
