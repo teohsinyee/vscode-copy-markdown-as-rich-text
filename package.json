@@ -6,6 +6,7 @@
   "publisher": "teohsinyee",
   "author": "Sin Yee",
   "license": "MIT",
+  "icon": "media/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text.git"
@@ -18,6 +19,7 @@
     "vscode": "^1.96.0"
   },
   "categories": [
+    "Productivity",
     "Other"
   ],
   "keywords": [
