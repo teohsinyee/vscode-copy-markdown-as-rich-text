@@ -7,7 +7,7 @@ test("buildWindowsNativePowerShellArgs uses encoded command instead of script fi
   const args = buildWindowsNativePowerShellArgs(payloadPath);
 
   assert.deepEqual(args.slice(0, 4), ["-NoProfile", "-NonInteractive", "-STA", "-EncodedCommand"]);
-  assert.equal(args.at(-1), payloadPath);
+  assert.equal(args.length, 5);
   assert.ok(!args.includes("-File"));
 
   const encodedCommand = args[4];
@@ -15,4 +15,5 @@ test("buildWindowsNativePowerShellArgs uses encoded command instead of script fi
 
   assert.match(decodedCommand, /ConvertFrom-Json/);
   assert.match(decodedCommand, /System\.Windows\.Forms\.Clipboard/);
+  assert.match(decodedCommand, /clipboard-payload\.json/);
 });
