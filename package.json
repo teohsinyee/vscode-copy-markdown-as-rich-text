@@ -2,7 +2,7 @@
   "name": "copy-markdown-to-rich-text",
   "displayName": "Copy Markdown to Rich Text",
   "description": "Open a Markdown file in VS Code and click the star button to copy it as rich text.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "teohsinyee",
   "author": "Sin Yee",
   "license": "MIT",

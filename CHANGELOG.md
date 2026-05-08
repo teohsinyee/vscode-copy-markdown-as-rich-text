@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Fixed the `0.1.3` Windows clipboard regression where `powershell.exe -EncodedCommand` was given an extra payload argument and failed before writing rich text.
+- Repackaged the extension with the current README badges so the VSIX no longer carries the retired Marketplace badge markup.
+
 ## 0.1.3
 
 - Fixed the Windows native clipboard path to avoid executing a temporary `.ps1` file.
