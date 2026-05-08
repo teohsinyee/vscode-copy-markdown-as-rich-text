@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- Fixed the Windows native clipboard path to avoid executing a temporary `.ps1` file.
+- Reduced rich-copy failures on machines where PowerShell script execution is blocked by `ExecutionPolicy` or enterprise policy.
+- Added a test that locks the Windows clipboard command to `-EncodedCommand` instead of `-File`.
+
 ## 0.1.2
 
 - Standardized the public extension name to `Copy Markdown to Rich Text`.

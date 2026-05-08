@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
 import { buildWindowsClipboardHtml } from "./htmlClipboard";
+import { buildWindowsNativePowerShellArgs } from "./windowsClipboardCommand";
 
 const execFileAsync = promisify(execFile);
 
@@ -34,26 +35,11 @@ async function tryWriteWithWindowsNative(html: string, text: string): Promise<Cl
   const clipboardHtml = buildWindowsClipboardHtml(html);
   const tempDir = await mkdtemp(join(tmpdir(), "copy-markdown-as-rich-text-"));
   const payloadPath = join(tempDir, "clipboard-payload.json");
-  const scriptPath = join(tempDir, "write-clipboard.ps1");
 
   try {
     await writeFile(payloadPath, JSON.stringify({ html: clipboardHtml, text }), "utf8");
-    await writeFile(
-      scriptPath,
-      [
-        "param([string]$PayloadPath)",
-        "$ErrorActionPreference = 'Stop'",
-        "Add-Type -AssemblyName System.Windows.Forms",
-        "$payload = Get-Content -LiteralPath $PayloadPath -Raw | ConvertFrom-Json",
-        "$data = New-Object System.Windows.Forms.DataObject",
-        "$data.SetData([System.Windows.Forms.DataFormats]::Html, [string]$payload.html)",
-        "$data.SetData([System.Windows.Forms.DataFormats]::UnicodeText, [string]$payload.text)",
-        "[System.Windows.Forms.Clipboard]::SetDataObject($data, $true)"
-      ].join("\r\n"),
-      "utf8"
-    );
 
-    await execFileAsync("powershell.exe", ["-NoProfile", "-STA", "-File", scriptPath, payloadPath], {
+    await execFileAsync("powershell.exe", buildWindowsNativePowerShellArgs(payloadPath), {
       windowsHide: true,
       maxBuffer: 1024 * 1024
     });
