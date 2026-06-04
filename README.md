@@ -1,9 +1,10 @@
 # Copy Markdown to Rich Text
 
-[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code%20Marketplace-Install-0098FF?logo=visualstudiocode&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=teohsinyee.copy-markdown-to-rich-text)
-[![GitHub Release](https://img.shields.io/github/v/release/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/releases/latest)
-[![Open Issues](https://img.shields.io/github/issues/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/issues)
-[![License](https://img.shields.io/github/license/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/blob/main/LICENSE)
+[![VS Code Marketplace Installs](https://badgen.net/vs-marketplace/i/teohsinyee.copy-markdown-to-rich-text?label=marketplace%20installs)](https://marketplace.visualstudio.com/items?itemName=teohsinyee.copy-markdown-to-rich-text)
+[![VS Code Marketplace Rating](https://badgen.net/vs-marketplace/rating/teohsinyee.copy-markdown-to-rich-text?label=marketplace%20rating)](https://marketplace.visualstudio.com/items?itemName=teohsinyee.copy-markdown-to-rich-text)
+[![GitHub Release](https://badgen.net/github/release/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/releases/latest)
+[![Open Issues](https://badgen.net/github/open-issues/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/issues)
+[![License](https://badgen.net/github/license/teohsinyee/vscode-copy-markdown-as-rich-text)](https://github.com/teohsinyee/vscode-copy-markdown-as-rich-text/blob/main/LICENSE)
 
 Open a Markdown file in VS Code, then click the star button in the top-right editor toolbar to copy it as rich text.
 
