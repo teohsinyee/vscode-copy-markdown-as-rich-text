@@ -25,6 +25,6 @@ YYYY-MM-DD-change-name.logs.md
 ## Current Changes
 
 - `2026-06-06-release-0.1.5-bugfix`
-  - PRD: [2026-06-06-release-0.1.5-bugfix.prd.md](/C:/Users/sinyee/Desktop/dev/vscode-copy-markdown-as-rich-text/docs/changes/2026-06-06-release-0.1.5-bugfix.prd.md)
-  - Decision: [2026-06-06-release-0.1.5-bugfix.decision.md](/C:/Users/sinyee/Desktop/dev/vscode-copy-markdown-as-rich-text/docs/changes/2026-06-06-release-0.1.5-bugfix.decision.md)
-  - Spec: [2026-06-06-release-0.1.5-bugfix.spec.md](/C:/Users/sinyee/Desktop/dev/vscode-copy-markdown-as-rich-text/docs/changes/2026-06-06-release-0.1.5-bugfix.spec.md)
+  - PRD: [2026-06-06-release-0.1.5-bugfix.prd.md](./2026-06-06-release-0.1.5-bugfix.prd.md)
+  - Decision: [2026-06-06-release-0.1.5-bugfix.decision.md](./2026-06-06-release-0.1.5-bugfix.decision.md)
+  - Spec: [2026-06-06-release-0.1.5-bugfix.spec.md](./2026-06-06-release-0.1.5-bugfix.spec.md)
