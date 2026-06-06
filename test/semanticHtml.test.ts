@@ -30,3 +30,10 @@ test("normalizeSemanticHtml preserves code block structure", () => {
 
   assert.equal(result, "<pre><code>line 1\n  line 2\nline 3</code></pre>");
 });
+
+test("normalizeSemanticHtml preserves comparison operators in list text", () => {
+  const html = "<ol><li>&lt;=6 and &gt;6.</li></ol>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<ol><li>&lt;=6 and &gt;6.</li></ol>");
+});
