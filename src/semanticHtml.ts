@@ -39,6 +39,58 @@ function normalizeChildren(node: HTMLElement): string {
     .join("");
 }
 
+function normalizePreformattedContent(node: HTMLElement): string {
+  return node.childNodes
+    .map((child) => {
+      if (child instanceof TextNode) {
+        return escapeHtml(child.text);
+      }
+
+      if (child instanceof HTMLElement) {
+        const tag = child.tagName.toLowerCase();
+        if (tag === "code") {
+          return `<code>${normalizePreformattedContent(child)}</code>`;
+        }
+
+        return normalizePreformattedContent(child);
+      }
+
+      return "";
+    })
+    .join("");
+}
+
+function normalizePreTag(node: HTMLElement): string {
+  const preInnerHtml = node.innerHTML
+    .replace(/^&lt;code&gt;/, "")
+    .replace(/&lt;\/code&gt;$/, "");
+
+  const parsed = parse(preInnerHtml, {
+    comment: false
+  });
+
+  const inner = parsed.childNodes
+    .map((child) => {
+      if (child instanceof TextNode) {
+        return escapeHtml(child.text);
+      }
+
+      if (child instanceof HTMLElement) {
+        const tag = child.tagName.toLowerCase();
+        if (tag === "code") {
+          return `<code>${normalizePreformattedContent(child)}</code>`;
+        }
+
+        return normalizePreformattedContent(child);
+      }
+
+      return "";
+    })
+    .join("");
+
+  return `<pre>${inner}</pre>`;
+}
+
 function normalizeNode(node: HtmlNode): string {
   if (node instanceof TextNode) {
     return cleanText(node.text);
@@ -58,6 +110,14 @@ function normalizeNode(node: HtmlNode): string {
     const href = node.getAttribute("href");
     const safeHref = href ? ` href="${escapeHtml(href)}"` : "";
     return `<a${safeHref}>${normalizeChildren(node)}</a>`;
+  }
+
+  if (tag === "pre") {
+    return normalizePreTag(node);
+  }
+
+  if (tag === "code") {
+    return `<code>${normalizePreformattedContent(node)}</code>`;
   }
 
   const childContent = normalizeChildren(node);

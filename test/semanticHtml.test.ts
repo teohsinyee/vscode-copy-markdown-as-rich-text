@@ -23,3 +23,10 @@ test("normalizeSemanticHtml does not double-escape heading text entities", () =>
 
   assert.equal(result, "<h1>Slides &amp; Notes</h1>");
 });
+
+test("normalizeSemanticHtml preserves code block structure", () => {
+  const html = "<pre><code>line 1\n  line 2\nline 3</code></pre>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<pre><code>line 1\n  line 2\nline 3</code></pre>");
+});
