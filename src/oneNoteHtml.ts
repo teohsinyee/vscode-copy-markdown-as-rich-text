@@ -21,20 +21,27 @@ const TAG_STYLES: Record<string, string> = {
   a: "color:#0f6cbd;text-decoration:underline;"
 };
 
-function replaceOrderedLists(container: HTMLElement): void {
-  const orderedLists = container.querySelectorAll("ol");
+const LIST_PARAGRAPH_STYLE = "font-size:16px;line-height:1.5;margin:0 0 6px 0;";
+const LIST_INDENT = "&nbsp;&nbsp;&nbsp;&nbsp;";
+const LIST_GAP = "&nbsp;&nbsp;";
 
-  for (const orderedList of orderedLists) {
-    const items = orderedList.querySelectorAll(":scope > li");
+function replaceLists(container: HTMLElement): void {
+  const lists = container.querySelectorAll("ol, ul");
+
+  for (const list of lists) {
+    const items = list.querySelectorAll(":scope > li");
     if (items.length === 0) {
       continue;
     }
 
     const replacementHtml = items
-      .map((item, index) => `<p data-list-paragraph="ordered" style="font-size:16px;line-height:1.5;margin:0 0 6px 48px;text-indent:-24px;">${index + 1}. ${item.innerHTML.trim()}</p>`)
+      .map((item, index) => {
+        const marker = list.tagName.toLowerCase() === "ol" ? `${index + 1}.` : "&bull;";
+        return `<p data-list-paragraph="list" style="${LIST_PARAGRAPH_STYLE}">${LIST_INDENT}${marker}${LIST_GAP}${item.innerHTML.trim()}</p>`;
+      })
       .join("");
 
-    orderedList.replaceWith(replacementHtml);
+    list.replaceWith(replacementHtml);
   }
 }
 
@@ -75,7 +82,7 @@ export function buildOneNoteHtml(normalizedHtml: string): string {
     return normalizedHtml;
   }
 
-  replaceOrderedLists(container);
+  replaceLists(container);
   applyStyles(container);
   container.setAttribute("style", "font-family:'Segoe UI',Arial,sans-serif;color:#1f1f1f;background-color:#ffffff;");
 

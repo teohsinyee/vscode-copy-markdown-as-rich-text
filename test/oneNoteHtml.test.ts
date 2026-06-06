@@ -16,10 +16,18 @@ test("buildOneNoteHtml styles tables for paste targets", () => {
   assert.match(result, /background-color:#92D050/);
 });
 
-test("buildOneNoteHtml converts ordered lists into indented numbered paragraphs for paste targets", () => {
+test("buildOneNoteHtml converts ordered lists into content-indented paragraphs for paste targets", () => {
   const result = buildOneNoteHtml("<ol><li>a</li><li>b</li></ol>");
 
   assert.doesNotMatch(result, /<ol/);
-  assert.match(result, /<p data-list-paragraph="ordered" style="font-size:16px;line-height:1\.5;margin:0 0 6px 48px;text-indent:-24px;">1\. a<\/p>/);
-  assert.match(result, /<p data-list-paragraph="ordered" style="font-size:16px;line-height:1\.5;margin:0 0 6px 48px;text-indent:-24px;">2\. b<\/p>/);
+  assert.match(result, /<p data-list-paragraph="list" style="font-size:16px;line-height:1\.5;margin:0 0 6px 0;">&nbsp;&nbsp;&nbsp;&nbsp;1\.&nbsp;&nbsp;a<\/p>/);
+  assert.match(result, /<p data-list-paragraph="list" style="font-size:16px;line-height:1\.5;margin:0 0 6px 0;">&nbsp;&nbsp;&nbsp;&nbsp;2\.&nbsp;&nbsp;b<\/p>/);
+});
+
+test("buildOneNoteHtml converts bullet lists into content-indented paragraphs for paste targets", () => {
+  const result = buildOneNoteHtml("<ul><li>a</li><li>b</li></ul>");
+
+  assert.doesNotMatch(result, /<ul/);
+  assert.match(result, /<p data-list-paragraph="list" style="font-size:16px;line-height:1\.5;margin:0 0 6px 0;">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;a<\/p>/);
+  assert.match(result, /<p data-list-paragraph="list" style="font-size:16px;line-height:1\.5;margin:0 0 6px 0;">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;b<\/p>/);
 });
