@@ -2,6 +2,10 @@ function padOffset(value: number): string {
   return value.toString().padStart(10, "0");
 }
 
+function getUtf8ByteLength(value: string): number {
+  return Buffer.byteLength(value, "utf8");
+}
+
 export function buildWindowsClipboardHtml(htmlFragment: string): string {
   const normalizedFragment = htmlFragment.trim();
   const fragmentWithMarkers = `<!--StartFragment-->${normalizedFragment}<!--EndFragment-->`;
@@ -15,10 +19,14 @@ export function buildWindowsClipboardHtml(htmlFragment: string): string {
     "EndFragment:0000000000"
   ].join("\r\n") + "\r\n";
 
-  const startHtml = headerTemplate.length;
-  const startFragment = startHtml + documentHtml.indexOf("<!--StartFragment-->") + "<!--StartFragment-->".length;
-  const endFragment = startHtml + documentHtml.indexOf("<!--EndFragment-->");
-  const endHtml = startHtml + documentHtml.length;
+  const startMarker = "<!--StartFragment-->";
+  const endMarker = "<!--EndFragment-->";
+  const startMarkerOffset = documentHtml.indexOf(startMarker) + startMarker.length;
+  const endMarkerOffset = documentHtml.indexOf(endMarker);
+  const startHtml = getUtf8ByteLength(headerTemplate);
+  const startFragment = startHtml + getUtf8ByteLength(documentHtml.slice(0, startMarkerOffset));
+  const endFragment = startHtml + getUtf8ByteLength(documentHtml.slice(0, endMarkerOffset));
+  const endHtml = startHtml + getUtf8ByteLength(documentHtml);
 
   const header = [
     "Version:0.9",
