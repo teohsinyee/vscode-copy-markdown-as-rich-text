@@ -16,3 +16,24 @@ test("normalizeSemanticHtml preserves links and tables", () => {
   assert.match(result, /<table>/);
   assert.match(result, /href="https:\/\/example\.com"/);
 });
+
+test("normalizeSemanticHtml does not double-escape heading text entities", () => {
+  const html = "<h1>Slides &amp; Notes</h1>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<h1>Slides &amp; Notes</h1>");
+});
+
+test("normalizeSemanticHtml preserves code block structure", () => {
+  const html = "<pre><code>line 1\n  line 2\nline 3</code></pre>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<pre><code>line 1\n  line 2\nline 3</code></pre>");
+});
+
+test("normalizeSemanticHtml preserves comparison operators in list text", () => {
+  const html = "<ol><li>&lt;=6 and &gt;6.</li></ol>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<ol><li>&lt;=6 and &gt;6.</li></ol>");
+});

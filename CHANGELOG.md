@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.5
+
+- Fixed truncation in rich-text clipboard payloads by generating correct UTF-8 byte offsets for Windows `CF_HTML`.
+- Fixed heading text so ampersands paste as `&` instead of HTML entities like `&amp;`.
+- Fixed comparison operators so content such as `<=6` and `>6` pastes as intended instead of escaped entity text.
+- Fixed code blocks so multi-line structure and tree-style formatting are preserved during rich-text normalization.
+- Improved ordered-list paste formatting for OneNote-targeted output. The result is more acceptable for this release, though list indentation may still vary by paste target.
+
 ## 0.1.4
 
 - Fixed the `0.1.3` Windows clipboard regression where `powershell.exe -EncodedCommand` was given an extra payload argument and failed before writing rich text.
