@@ -41,7 +41,7 @@ function normalizeChildren(node: HTMLElement): string {
 
 function normalizeNode(node: HtmlNode): string {
   if (node instanceof TextNode) {
-    return cleanText(node.rawText);
+    return cleanText(node.text);
   }
 
   if (!(node instanceof HTMLElement)) {

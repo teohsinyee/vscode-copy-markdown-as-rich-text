@@ -16,3 +16,10 @@ test("normalizeSemanticHtml preserves links and tables", () => {
   assert.match(result, /<table>/);
   assert.match(result, /href="https:\/\/example\.com"/);
 });
+
+test("normalizeSemanticHtml does not double-escape heading text entities", () => {
+  const html = "<h1>Slides &amp; Notes</h1>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<h1>Slides &amp; Notes</h1>");
+});
