@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { isWslEnvironment } from "../src/environment";
 import { buildWindowsNativePowerShellArgs } from "../src/windowsClipboardCommand";
 
 test("buildWindowsNativePowerShellArgs uses encoded command instead of script file execution", () => {
@@ -16,4 +17,11 @@ test("buildWindowsNativePowerShellArgs uses encoded command instead of script fi
   assert.match(decodedCommand, /ConvertFrom-Json/);
   assert.match(decodedCommand, /System\.Windows\.Forms\.Clipboard/);
   assert.match(decodedCommand, /clipboard-payload\.json/);
+});
+
+test("isWslEnvironment detects WSL-specific environments", () => {
+  assert.equal(isWslEnvironment({ WSL_DISTRO_NAME: "Ubuntu" }), true);
+  assert.equal(isWslEnvironment({ WSL_INTEROP: "/run/WSL/9-intercepting" }), true);
+  assert.equal(isWslEnvironment({ WSLENV: "WT_SESSION:foo" }), true);
+  assert.equal(isWslEnvironment({}), false);
 });
