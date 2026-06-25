@@ -19,6 +19,21 @@ test("buildWindowsNativePowerShellArgs uses encoded command instead of script fi
   assert.match(decodedCommand, /clipboard-payload\.json/);
 });
 
+test("buildWindowsNativePowerShellArgs converts WSL payload paths to Windows-readable UNC paths", () => {
+  const args = buildWindowsNativePowerShellArgs("/tmp/copy-markdown-as-rich-text-MdJnSs/clipboard-payload.json", {
+    isWsl: true,
+    env: { WSL_DISTRO_NAME: "Ubuntu" }
+  });
+
+  const decodedCommand = Buffer.from(args[4], "base64").toString("utf16le");
+
+  assert.match(
+    decodedCommand,
+    /\\\\wsl\$\\Ubuntu\\tmp\\copy-markdown-as-rich-text-MdJnSs\\clipboard-payload\.json/
+  );
+  assert.doesNotMatch(decodedCommand, /'\/tmp\/copy-markdown-as-rich-text-MdJnSs\/clipboard-payload\.json'/);
+});
+
 test("isWslEnvironment detects WSL-specific environments", () => {
   assert.equal(isWslEnvironment({ WSL_DISTRO_NAME: "Ubuntu" }), true);
   assert.equal(isWslEnvironment({ WSL_INTEROP: "/run/WSL/9-intercepting" }), true);
