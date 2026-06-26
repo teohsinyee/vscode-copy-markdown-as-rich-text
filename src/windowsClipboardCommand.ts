@@ -1,5 +1,27 @@
-export function buildWindowsNativePowerShellArgs(payloadPath: string): string[] {
-  const escapedPayloadPath = payloadPath.replace(/'/g, "''");
+interface WindowsNativePowerShellOptions {
+  isWsl?: boolean;
+  env?: NodeJS.ProcessEnv;
+}
+
+function toWindowsReadablePath(payloadPath: string, options: WindowsNativePowerShellOptions = {}): string {
+  if (!options.isWsl || !payloadPath.startsWith("/")) {
+    return payloadPath;
+  }
+
+  const distroName = options.env?.WSL_DISTRO_NAME;
+  if (!distroName) {
+    return payloadPath;
+  }
+
+  return `\\\\wsl$\\${distroName}${payloadPath.replace(/\//g, "\\")}`;
+}
+
+export function buildWindowsNativePowerShellArgs(
+  payloadPath: string,
+  options: WindowsNativePowerShellOptions = {}
+): string[] {
+  const windowsReadablePayloadPath = toWindowsReadablePath(payloadPath, options);
+  const escapedPayloadPath = windowsReadablePayloadPath.replace(/'/g, "''");
   const script = [
     "$ErrorActionPreference = 'Stop'",
     "Add-Type -AssemblyName System.Windows.Forms",

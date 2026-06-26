@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { promisify } from "node:util";
 import { buildWindowsClipboardHtml } from "./htmlClipboard";
+import { isWslEnvironment } from "./environment";
 import { buildWindowsNativePowerShellArgs } from "./windowsClipboardCommand";
 
 const execFileAsync = promisify(execFile);
@@ -28,7 +29,10 @@ function logClipboard(message: string): void {
 }
 
 async function tryWriteWithWindowsNative(html: string, text: string): Promise<ClipboardWriteResult | undefined> {
-  if (process.platform !== "win32") {
+  const isWindows = process.platform === "win32";
+  const isWsl = isWslEnvironment();
+
+  if (!isWindows && !isWsl) {
     return undefined;
   }
 
@@ -38,8 +42,10 @@ async function tryWriteWithWindowsNative(html: string, text: string): Promise<Cl
 
   try {
     await writeFile(payloadPath, JSON.stringify({ html: clipboardHtml, text }), "utf8");
+    const windowsPayloadPath = isWsl ? await getWindowsPathFromWsl(payloadPath) : payloadPath;
 
-    await execFileAsync("powershell.exe", buildWindowsNativePowerShellArgs(payloadPath), {
+    const powershellBinary = process.platform === "win32" ? "powershell.exe" : "powershell.exe";
+    await execFileAsync(powershellBinary, buildWindowsNativePowerShellArgs(windowsPayloadPath, { isWsl, env: process.env }), {
       windowsHide: true,
       maxBuffer: 1024 * 1024
     });
@@ -52,6 +58,23 @@ async function tryWriteWithWindowsNative(html: string, text: string): Promise<Cl
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
+}
+
+async function getWindowsPathFromWsl(payloadPath: string): Promise<string> {
+  try {
+    const { stdout } = await execFileAsync("wslpath", ["-w", payloadPath], {
+      windowsHide: true,
+      maxBuffer: 1024 * 1024
+    });
+    const windowsPath = stdout.trim();
+    if (windowsPath) {
+      return windowsPath;
+    }
+  } catch {
+    // Fall back to the env-based conversion in buildWindowsNativePowerShellArgs.
+  }
+
+  return payloadPath;
 }
 
 function getNodeRequire(): NodeJS.Require | undefined {
