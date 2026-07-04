@@ -34,29 +34,33 @@ Install `Copy Markdown to Rich Text` from the VS Code Marketplace, then run it f
    - the editor context menu.
 5. Paste into your target editor.
 
-## Supported Markdown
+## Capabilities
 
-- H1 / H2 / H3
-- Paragraphs
-- Bold / italic
-- Inline code
-- Fenced code blocks
-- Tables
-- Bullet lists
-- Numbered lists
-- Links
+| Area | Status | Notes |
+| --- | --- | --- |
+| H1 / H2 / H3, paragraphs | Supported | Copied as rich HTML plus plain text. |
+| Bold, italic, inline code | Supported | Preserves common inline formatting. |
+| Fenced code blocks | Supported | Preserves multiline code block structure. |
+| Tables | Supported | Keeps semantic table markup for rich paste targets. |
+| Bullet and numbered lists | Supported | Paste indentation may vary by target editor. |
+| Links | Supported | Keeps link text and href. |
+| Images | Not supported yet | Copied as text fallback content only. |
+| Mermaid | Not supported yet | Copied as fenced code text. |
+| Footnotes | Not supported yet | Markdown renderer output may paste as plain text structure. |
 
-## Known limitations
+## Platform notes
 
-- Images are not supported in v1.
-- Mermaid is not supported in v1.
-- Footnotes are not supported in v1.
-- Rich clipboard behavior still depends on the clipboard and paste behavior of the target editor.
-- OneNote Desktop is the primary validation target today.
+| Environment | Clipboard path | Notes |
+| --- | --- | --- |
+| Windows | Native Windows clipboard bridge | Primary supported path for rich HTML paste. |
+| WSL | Native Windows clipboard bridge through WSL path conversion | Supported when Windows PowerShell is reachable from WSL. |
+| Other VS Code desktop environments | Electron or webview clipboard, then plain text fallback | Rich clipboard behavior depends on the host and paste target. |
+
+OneNote Desktop is the primary validation target today. Word, Outlook, and similar editors are expected to work, but paste behavior can vary by target editor.
 
 ## Privacy
 
 - Local-only processing
 - No remote fetches
 - No telemetry
-- No external script execution beyond the internal clipboard bridge
+- No external script execution beyond the local clipboard bridge
