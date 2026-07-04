@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+
+- Bumped the extension package version to `0.1.6`.
+
 ## 0.1.5
 
 - Fixed truncation in rich-text clipboard payloads by generating correct UTF-8 byte offsets for Windows `CF_HTML`.
