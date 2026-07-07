@@ -2,6 +2,7 @@ import { parse, HTMLElement, type Node as HtmlNode, TextNode } from "node-html-p
 
 const ALLOWED_TAGS = new Set([
   "a",
+  "br",
   "code",
   "em",
   "h1",
@@ -29,13 +30,22 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function cleanText(value: string): string {
-  return escapeHtml(value.replace(/\s+/g, " "));
+function cleanText(value: string, restoreLineBreaks = false): string {
+  const cleaned = value.replace(/\s+/g, " ");
+
+  if (!restoreLineBreaks) {
+    return escapeHtml(cleaned);
+  }
+
+  return cleaned
+    .split(/<br\s*\/?>/gi)
+    .map((part) => escapeHtml(part))
+    .join("<br>");
 }
 
-function normalizeChildren(node: HTMLElement): string {
+function normalizeChildren(node: HTMLElement, restoreLineBreaks = false): string {
   return node.childNodes
-    .map((child) => normalizeNode(child))
+    .map((child) => normalizeNode(child, restoreLineBreaks))
     .join("");
 }
 
@@ -91,9 +101,15 @@ function normalizePreTag(node: HTMLElement): string {
   return `<pre>${inner}</pre>`;
 }
 
-function normalizeNode(node: HtmlNode): string {
+function hasDirectChild(node: HTMLElement, tagName: string): boolean {
+  return node.childNodes.some(
+    (child) => child instanceof HTMLElement && child.tagName.toLowerCase() === tagName
+  );
+}
+
+function normalizeNode(node: HtmlNode, restoreLineBreaks = false): string {
   if (node instanceof TextNode) {
-    return cleanText(node.text);
+    return cleanText(node.text, restoreLineBreaks);
   }
 
   if (!(node instanceof HTMLElement)) {
@@ -103,13 +119,13 @@ function normalizeNode(node: HtmlNode): string {
   const tag = node.tagName.toLowerCase();
 
   if (!ALLOWED_TAGS.has(tag)) {
-    return normalizeChildren(node);
+    return normalizeChildren(node, restoreLineBreaks);
   }
 
   if (tag === "a") {
     const href = node.getAttribute("href");
     const safeHref = href ? ` href="${escapeHtml(href)}"` : "";
-    return `<a${safeHref}>${normalizeChildren(node)}</a>`;
+    return `<a${safeHref}>${normalizeChildren(node, restoreLineBreaks)}</a>`;
   }
 
   if (tag === "pre") {
@@ -120,12 +136,17 @@ function normalizeNode(node: HtmlNode): string {
     return `<code>${normalizePreformattedContent(node)}</code>`;
   }
 
-  const childContent = normalizeChildren(node);
+  if (tag === "br") {
+    return "<br>";
+  }
+
+  const childContent = normalizeChildren(node, restoreLineBreaks || tag === "td" || tag === "th");
 
   if (tag === "table") {
-    const hasHead = node.querySelector("thead") !== null;
+    const hasHead = hasDirectChild(node, "thead");
+    const hasBody = hasDirectChild(node, "tbody");
     const body = childContent.trim();
-    return hasHead ? `<table>${body}</table>` : `<table><tbody>${body}</tbody></table>`;
+    return hasHead || hasBody ? `<table>${body}</table>` : `<table><tbody>${body}</tbody></table>`;
   }
 
   return `<${tag}>${childContent}</${tag}>`;
