@@ -55,6 +55,16 @@ test("normalizeSemanticHtml only treats direct tbody children as table bodies", 
   );
 });
 
+test("normalizeSemanticHtml only treats direct thead children as table heads", () => {
+  const html = "<table><tr><td><table><thead><tr><th>nested</th></tr></thead></table></td></tr></table>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(
+    result,
+    "<table><tbody><tr><td><table><thead><tr><th>nested</th></tr></thead></table></td></tr></tbody></table>"
+  );
+});
+
 test("normalizeSemanticHtml preserves comparison operators in list text", () => {
   const html = "<ol><li>&lt;=6 and &gt;6.</li></ol>";
   const result = normalizeSemanticHtml(html);

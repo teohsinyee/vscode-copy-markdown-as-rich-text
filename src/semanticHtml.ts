@@ -101,6 +101,12 @@ function normalizePreTag(node: HTMLElement): string {
   return `<pre>${inner}</pre>`;
 }
 
+function hasDirectChild(node: HTMLElement, tagName: string): boolean {
+  return node.childNodes.some(
+    (child) => child instanceof HTMLElement && child.tagName.toLowerCase() === tagName
+  );
+}
+
 function normalizeNode(node: HtmlNode, restoreLineBreaks = false): string {
   if (node instanceof TextNode) {
     return cleanText(node.text, restoreLineBreaks);
@@ -137,10 +143,8 @@ function normalizeNode(node: HtmlNode, restoreLineBreaks = false): string {
   const childContent = normalizeChildren(node, restoreLineBreaks || tag === "td" || tag === "th");
 
   if (tag === "table") {
-    const hasHead = node.querySelector("thead") !== null;
-    const hasBody = node.childNodes.some(
-      (child) => child instanceof HTMLElement && child.tagName.toLowerCase() === "tbody"
-    );
+    const hasHead = hasDirectChild(node, "thead");
+    const hasBody = hasDirectChild(node, "tbody");
     const body = childContent.trim();
     return hasHead || hasBody ? `<table>${body}</table>` : `<table><tbody>${body}</tbody></table>`;
   }
