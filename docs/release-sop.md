@@ -89,9 +89,18 @@ Create the GitHub Release manually from the pushed tag.
 5. Attach the latest generated VSIX, for example `copy-markdown-to-rich-text-0.1.7.vsix`.
 6. Publish the release.
 
+## 7. Upload To Visual Studio Marketplace
+
+Upload the same latest VSIX to the publisher page.
+
+1. Open [Visual Studio Marketplace publisher management](https://marketplace.visualstudio.com/manage/publishers/teohsinyee).
+2. Select the `teohsinyee` publisher and the extension.
+3. Upload the latest generated VSIX, for example `copy-markdown-to-rich-text-0.1.7.vsix`.
+4. Confirm the Marketplace listing shows the new version.
+
 ## Notes
 
 - Version bump PRs should be separate from feature or bug-fix PRs.
 - Keep the release bump diff limited to `package.json` and `package-lock.json`.
 - Generate the VSIX before opening the release PR so the PR body can record the exact artifact name.
-- The human release owner creates the GitHub Release and attaches the latest VSIX.
+- The human release owner creates the GitHub Release, attaches the latest VSIX, and uploads that VSIX to Marketplace.
