@@ -31,6 +31,30 @@ test("normalizeSemanticHtml preserves code block structure", () => {
   assert.equal(result, "<pre><code>line 1\n  line 2\nline 3</code></pre>");
 });
 
+test("normalizeSemanticHtml turns escaped br tags into line breaks", () => {
+  const html = "<table><tbody><tr><td>line 1&lt;br&gt;line 2</td></tr></tbody></table>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<table><tbody><tr><td>line 1<br>line 2</td></tr></tbody></table>");
+});
+
+test("normalizeSemanticHtml keeps escaped br text outside table cells", () => {
+  const html = "<pre><code>line 1&lt;br&gt;line 2</code></pre>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(result, "<pre><code>line 1&lt;br&gt;line 2</code></pre>");
+});
+
+test("normalizeSemanticHtml only treats direct tbody children as table bodies", () => {
+  const html = "<table><tr><td><table><tbody><tr><td>nested</td></tr></tbody></table></td></tr></table>";
+  const result = normalizeSemanticHtml(html);
+
+  assert.equal(
+    result,
+    "<table><tbody><tr><td><table><tbody><tr><td>nested</td></tr></tbody></table></td></tr></tbody></table>"
+  );
+});
+
 test("normalizeSemanticHtml preserves comparison operators in list text", () => {
   const html = "<ol><li>&lt;=6 and &gt;6.</li></ol>";
   const result = normalizeSemanticHtml(html);
